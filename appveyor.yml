@@ -24,8 +24,8 @@ test_script:
 
 # start MySQL 5.6 and 5.7 containers in detached mode
 # map port 3306 of each container to a respective port of Windows host VM
-- docker run -q --detach --name=mysql-5.7 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
-- docker run -q --detach --name=mysql-5.6 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6604:3306 mysql:5.6
+- docker run --detach --name=mysql-5.7 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
+- docker run --detach --name=mysql-5.6 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6604:3306 mysql:5.6
 
 # give'em some time to start
 - ps: Start-Sleep -s 20

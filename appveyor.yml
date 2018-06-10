@@ -1,12 +1,38 @@
 build: off
 
 test_script:
+
+# by default AppVeyor VM is starting in Windows Containers mode
 - docker version
+
+# some popular images are pre-installed
 - docker images
+
+# let's test Windows containers
 - docker run microsoft/nanoserver cmd /c dir
+
+# now, we are switching to Linux Containers mode
+# it will take around a minute to start MobyLinuxVM
+# drive X: is shared to allow Linux containers mapping volumes on Windows host machine
 - docker-switch-linux
+
+# ensure that we can read host's file system
 - docker run --rm -v x:/host:/host ubuntu ls /host
+
+# try some more advance Linux container example
 - docker run --rm -v x:/host:/host ubuntu /bin/bash -c "ls /host && apt-get update && apt-get -y install net-tools && ifconfig"
-- docker run --detach --name=test-mysql --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
+
+# start MySQL 5.6 and 5.7 containers in detached mode
+# map port 3306 of each container to a respective port of Windows host VM
+- docker run --detach --name=mysql-5.7 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
+- docker run --detach --name=mysql-5.6 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6604:3306 mysql:5.6
+
+# give'em some time to start
 - ps: Start-Sleep -s 10
+
+# display running containers
+- docker ps
+
+# ensure we can access both MySQL instances from Windows host
 - '"C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6603 -e "SELECT @@version;"'
+- '"C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6604 -e "SELECT @@version;"'

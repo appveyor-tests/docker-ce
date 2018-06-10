@@ -6,3 +6,4 @@ test_script:
 - docker run microsoft/nanoserver cmd /c dir
 - docker-switch-linux
 - docker run --rm -v x:/host:/host ubuntu ls /host
+- docker run --rm -v x:/host:/host ubuntu /bin/bash -c "ls /host && apt-get update && apt-get -y install net-tools && ifconfig"

@@ -9,4 +9,4 @@ test_script:
 - docker run --rm -v x:/host:/host ubuntu /bin/bash -c "ls /host && apt-get update && apt-get -y install net-tools && ifconfig"
 - docker run --detach --name=test-mysql --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
 - ps: Start-Sleep -s 10
-- "C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6603 -e "SELECT @@version;"
+- '"C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6603 -e "SELECT @@version;"'

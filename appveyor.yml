@@ -2,3 +2,7 @@ build: off
 
 test_script:
 - docker version
+- docker images
+- docker run microsoft/nanoserver cmd /c dir
+- docker-switch-linux
+- docker run --rm -v x:/host:/host ubuntu ls /host

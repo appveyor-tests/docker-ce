@@ -1,5 +1,5 @@
 build_script:
-- ps: ./load-narrative.ps1
+- ps: . .\load-narrative.ps1
 
 test_script:
 

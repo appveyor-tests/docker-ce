@@ -14,12 +14,12 @@ test_script:
 - ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
 - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
 
+- ps: _
 # More CPU cores means more compute power to your builds. There are so many tasks that can't be speed up by splitting them to multiple build jobs, but can benefit from more CPUs, for example compilation of large projects or running compute-intensive tests.
 # Some customers using Premium workers seen almost twice faster builds!
 # 
 # PLEASE NOTE: Premium workers are currently in private beta. Drop us email at team@appveyor.com if you want to participate.
-
-- ps: _
+# 
 # When the build starts Docker is in Windows mode. See the OS of server Engine:
 - docker version
 
@@ -56,20 +56,35 @@ test_script:
 - docker run --rm -v x:/host:/host ubuntu /bin/bash -c "ls /host && apt-get update && apt-get -y install net-tools && ifconfig"
 
 - ps: _
-# start MySQL 5.6 and 5.7 containers in detached mode
-# map port 3306 of each container to a respective port of Windows host VM
+# Now, we are starting two MySQL 5.6 and 5.7 containers in detached mode.
+# We are mapping port 3306 of each container to respective ports of Windows host VM.
+# 
+# MySQL 5.7 instance on one container will be mapped to 6603 local port:
 - docker run --detach --name=mysql-5.7 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6603:3306 mysql:5.7
+
+- ps: _
+# MySQL 5.6 instance will be mapped to 6604 local port:
 - docker run --detach --name=mysql-5.6 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6604:3306 mysql:5.6
 
 - ps: _
-# give'em some time to start
+# Give'em some time to start ...
 - ps: Start-Sleep -s 20
 
 - ps: _
-# display running containers
+# Make sure both containers are running:
 - docker ps
 
 - ps: _
-# ensure we can access both MySQL instances from Windows host
-- '"C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6603 -e "SELECT @@version;"'
-- '"C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql" -uroot -pPassword12! -h localhost -P 6604 -e "SELECT @@version;"'
+# Now, using MySQL command line client located on Windows build VM we are going to check if we can access both MySQL instances:
+- 'set PATH=C:\Program Files\MySQL\MySQL Server 5.7\bin;%PATH%'
+
+- ps: _
+# Connecting to MySQL 5.7:
+- mysql -uroot -pPassword12! -h localhost -P 6603 -e "SELECT @@version;"
+
+- ps: _
+# Connecting to MySQL 5.7:
+- mysql -uroot -pPassword12! -h localhost -P 6604 -e "SELECT @@version;"
+
+- ps: _
+# That's all for today!

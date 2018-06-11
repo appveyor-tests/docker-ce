@@ -16,29 +16,43 @@ test_script:
 
 # More CPU cores means more compute power to your builds. There are so many tasks that can't be speed up by splitting them to multiple build jobs, but can benefit from more CPUs, for example compilation of large projects or running compute-intensive tests.
 # Some customers using Premium workers seen almost twice faster builds!
-#
+# 
 # PLEASE NOTE: Premium workers are currently in private beta. Drop us email at team@appveyor.com if you want to participate.
 
 - ps: _
-# some popular images are pre-installed
+# When the build starts Docker is in Windows mode. See the OS of server Engine:
+- docker version
+
+- ps: _
+# For Windows containers we've got some popular images pre-installed:
 - docker images
 
 - ps: _
-# let's test Windows containers
+# OK, let's make sure Windows containers are working by running a simple "dir" command inside NanoServer containers:
 - docker run microsoft/nanoserver cmd /c dir
 
 - ps: _
-# now, we are switching to Linux Containers mode
-# it will take around a minute to start MobyLinuxVM
-# drive X: is shared to allow Linux containers mapping volumes on Windows host machine
+# Now let's switch Docker to Linux containers mode.
+# For switching between Windows and Linux AppVeyor provides a set of commands.
+# In PowerShell:
+#      Switch-DockerWindows       - switch Docker to Windows mode
+#      Switch-DockerLinux         - switch Docker to Linux mode
+# In CMD shell:
+#      docker-switch-windows      - switch Docker to Windows mode
+#      docker-switch-linux        - switch Docker to Linux mode
+#
+# Switching Docker to Linux for the first time takes around a minute. This is the time required to start "MobyLinuxVM" VM:
 - docker-switch-linux
 
 - ps: _
-# ensure that we can read host's file system
+# Drive X: is shared to allow Linux containers mapping volumes to directories located on Windows host machine.
+# There is "X:\host" folder pre-created for you. The maximum size of X: drive is 5 GB.
+# 
+# OK, let's run a container with Ubuntu 18.04, map `X:\host` as `/host` inside container and see if we can read the contents of `X:\host` folder:
 - docker run --rm -v x:/host:/host ubuntu ls /host
 
 - ps: _
-# try some more advance Linux container example
+# Trying some more advanced Linux container example:
 - docker run --rm -v x:/host:/host ubuntu /bin/bash -c "ls /host && apt-get update && apt-get -y install net-tools && ifconfig"
 
 - ps: _

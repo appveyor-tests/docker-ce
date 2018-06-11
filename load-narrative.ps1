@@ -1,4 +1,4 @@
-$lines = Get-Content "C:\Users\feodo\Downloads\appveyor.yml"
+$lines = Get-Content .\appveyor.yml
 
 $script:i = 0
 

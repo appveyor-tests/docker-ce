@@ -10,13 +10,13 @@ function _() {
         }
     }
 
+    Write-Host ""
     for(;$script:i -lt $lines.Length; $script:i++) {
-        Write-Host ""
         if ($lines[$script:i].StartsWith('#')) {
             Write-Host $lines[$script:i].Substring(2) -ForegroundColor DarkCyan
         } else {
             break
         }
-        Write-Host ""
     }
+    Write-Host ""
 }

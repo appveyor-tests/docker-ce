@@ -17,9 +17,11 @@ test_script:
 - ps: _
 # More CPU cores means more compute power to your builds. There are so many tasks that can't be speed up by splitting them to multiple build jobs, but can benefit from more CPUs, for example compilation of large projects or running compute-intensive tests.
 # Some customers using Premium workers seen almost twice faster builds!
-# 
+
+- ps: __
 # PLEASE NOTE: Premium workers are currently in private beta. Drop us email at team@appveyor.com if you want to participate.
-# 
+
+- ps: _
 # When the build starts Docker is in Windows mode. See the OS of server Engine:
 - docker version
 

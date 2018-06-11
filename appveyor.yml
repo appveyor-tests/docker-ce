@@ -11,7 +11,7 @@ test_script:
 # 
 # Linux containers are currently available on our new type of build VMs ("Premium" workers). Premium workers have more CPU, RAM and nested virtualization enabled:
 
-- ps: C:\Users\feodo> gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
+- ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
 - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
 
 # More CPU cores means more compute power to your builds. There are so many tasks that can't be speed up by splitting them to multiple build jobs, but can benefit from more CPUs, for example compilation of large projects or running compute-intensive tests.

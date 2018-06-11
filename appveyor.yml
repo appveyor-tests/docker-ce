@@ -3,6 +3,10 @@ build_script:
 
 test_script:
 
+# Hello,
+# 
+# Here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text, here we are just trying a very long line of text
+# 
 # by default AppVeyor VM is starting in Windows Containers mode
 - ps: _
 - docker version

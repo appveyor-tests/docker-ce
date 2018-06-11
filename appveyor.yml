@@ -32,15 +32,17 @@ test_script:
 - docker run microsoft/nanoserver cmd /c dir
 
 - ps: _
-# Now let's switch Docker to Linux containers mode.
-# For switching between Windows and Linux AppVeyor provides a set of commands.
-# In PowerShell:
-#      Switch-DockerWindows       - switch Docker to Windows mode
-#      Switch-DockerLinux         - switch Docker to Linux mode
-# In CMD shell:
-#      docker-switch-windows      - switch Docker to Windows mode
-#      docker-switch-linux        - switch Docker to Linux mode
-#
+# Now let's switch Docker to Linux containers mode!
+# 
+# For switching between Windows and Linux modes AppVeyor provides two sets of commands.
+# 
+# PowerShell:
+#   Switch-DockerWindows       - switch Docker to Windows mode
+#   Switch-DockerLinux         - switch Docker to Linux mode
+# CMD:
+#   docker-switch-windows      - switch Docker to Windows mode
+#   docker-switch-linux        - switch Docker to Linux mode
+# 
 # Switching Docker to Linux for the first time takes around a minute. This is the time required to start "MobyLinuxVM" VM:
 - docker-switch-linux
 
@@ -48,7 +50,7 @@ test_script:
 # Drive X: is shared to allow Linux containers mapping volumes to directories located on Windows host machine.
 # There is "X:\host" folder pre-created for you. The maximum size of X: drive is 5 GB.
 # 
-# OK, let's run a container with Ubuntu 18.04, map `X:\host` as `/host` inside container and see if we can read the contents of `X:\host` folder:
+# Let's run a container with Ubuntu 18.04, map `X:\host` as `/host` inside container and see if we can read the contents of `X:\host` folder:
 - docker run --rm -v x:/host:/host ubuntu ls /host
 
 - ps: _
@@ -67,7 +69,7 @@ test_script:
 - docker run --detach --name=mysql-5.6 --env="MYSQL_ROOT_PASSWORD=Password12!" --publish 6604:3306 mysql:5.6
 
 - ps: _
-# Give'em some time to start ...
+# Give MySQL instances inside containers some time to start ...
 - ps: Start-Sleep -s 20
 
 - ps: _

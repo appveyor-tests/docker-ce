@@ -9,7 +9,7 @@ test_script:
 # 
 # In this "log post" we'll glance at some Docker CE features available on AppVeyor build workers and test a simple scenario with Linux containers - we will spawn two Linux containers with MySQL 5.6 and MySQL 5.7 and make sure both MySQL instances can be connected from a Windows host VM.
 # 
-# Linux containers are currently available on our new flavor of build VMs - "Premium" workers. Premium workers have more CPU, RAM and nested virtualization enabled:
+# Linux containers are currently available on our new flavor of build VMs - Premium workers. Premium workers have more CPU, RAM and nested virtualization enabled:
 
 - ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
 - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }

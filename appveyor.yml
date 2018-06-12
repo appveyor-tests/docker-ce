@@ -4,12 +4,12 @@ build_script:
 test_script:
 
 - ps: _
-# Docker CE (Community Edition) can run both Windows and Linux containers on the same machine and its Edge version could be installed on Windows Server 2016. To run Linux containers Docker CE provisions "MobyLinux" Hyper-V VM with Linux and Docker daemon installed.
+# Docker CE (Community Edition) can run both Windows and Linux containers on the same machine and its Edge version could be installed on Windows Server 2016. To run Linux containers Docker CE provisions "MobyLinuxVM" Hyper-V VM with Linux and Docker daemon installed.
 # Windows containers are natively supported in Windows Server 2016. As Docker CLI works with Docker daemon via REST API it can work with both Windows and Linux daemons by switching between them.
 # 
-# In this BLOG Post (Build LOG post) we'll glance at some Docker CE features available on AppVeyor build workers and test a simple scenario with Linux containers - we will spawn two Linux containers with MySQL 5.6 and MySQL 5.7 and make sure both MySQL instances can be connected from a Windows host VM.
+# In this "log post" we'll glance at some Docker CE features available on AppVeyor build workers and test a simple scenario with Linux containers - we will spawn two Linux containers with MySQL 5.6 and MySQL 5.7 and make sure both MySQL instances can be connected from a Windows host VM.
 # 
-# Linux containers are currently available on our new type of build VMs ("Premium" workers). Premium workers have more CPU, RAM and nested virtualization enabled:
+# Linux containers are currently available on our new flavor of build VMs - "Premium" workers. Premium workers have more CPU, RAM and nested virtualization enabled:
 
 - ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
 - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
@@ -19,10 +19,10 @@ test_script:
 # Some customers using Premium workers seen almost twice faster builds!
 
 - ps: __
-# PLEASE NOTE: Premium workers are currently in private beta. Drop us email at team@appveyor.com if you want to participate.
+# PLEASE NOTE: Premium workers is a paid option (with 50% discount for open-source projects). If you are interested to trial Premium workers on your AppVeyor account drop us a message to team@appveyor.com.
 
 - ps: _
-# When the build starts Docker is in Windows mode. See the OS of server Engine:
+# When the build starts Docker is in Windows mode by default. See the OS of server Engine:
 - docker version
 
 - ps: _
